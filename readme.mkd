@@ -1,6 +1,7 @@
 jQuery.venn
 ===========
 Christopher Mullins <http://christophermullins.net>
+
 MIT License
 
 jQuery.venn is a jQuery plugin that uses the Raphael vector library to render
@@ -9,7 +10,7 @@ interactive Venn diagrams involving 2, 3, or 4 sets.
 Compatibility
 -------------
 This plugin has been tested with [jQuery](http://jquery.com) 1.8.2 and
-[Raphael](http://raphaeljs.com/) 2.0.
+[Raphael](http://raphaeljs.com/) 2.0 and 2.1.0.
 
 ### Browsers ###
 Plugin has only been tested with the following browsers, but it may work with
