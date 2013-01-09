@@ -1,0 +1,23 @@
+jQuery.venn
+===========
+Christopher Mullins <http://christophermullins.net>
+MIT License
+
+jQuery.venn is a jQuery plugin that uses the Raphael vector library to render
+interactive Venn diagrams involving 2, 3, or 4 sets.
+
+Compatibility
+-------------
+This plugin has been tested with [jQuery](http://jquery.com) 1.8.2 and
+[Raphael](http://raphaeljs.com/) 2.0.
+
+### Browsers ###
+Plugin has only been tested with the following browsers, but it may work with
+others.
+- firefox 17
+- chrome 23
+- safari 6
+
+Demo
+----
+A demo is available at <http://christophermullins.net/page/projects>

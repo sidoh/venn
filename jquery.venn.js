@@ -173,15 +173,15 @@ Region.getHashKey = function(sets) {
  * (like [0,1] -> "AB".
  */
 Region.arrayKeyToRegionLabel = function(a, labels) {
-    // Sort the key to provide a consistent  value
-    a = a.sort();
-    var id = "";
+  // Sort the key to provide a consistent  value
+  a = a.sort();
+  var id = "";
 
-    for (var i = 0; i < a.length; i++) {
-        id += labels[a[i]];
-    }
+  for (var i = 0; i < a.length; i++) {
+    id += labels[a[i]];
+  }
 
-    return id;
+  return id;
 };
 
 /***********************
