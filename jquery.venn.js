@@ -25,22 +25,22 @@
  * This class describes a region in a Venn diagram.
  */
 function Region(venn, containedSets) {
-	this.venn = venn;
+  this.venn = venn;
   this.data = venn.data('venn');
-	this.settings = this.data.settings;
-	this.containedSets = containedSets;
-	this.active = false;
+  this.settings = this.data.settings;
+  this.containedSets = containedSets;
+  this.active = false;
 
-	// This is used internally to keep track of lines that are drawn for
-	// shading.
-	this.shadingLines = null;
+  // This is used internally to keep track of lines that are drawn for
+  // shading.
+  this.shadingLines = null;
 
-	// Sort contained sets by index for convenience later on.
-	var comparator = function(a,b) {
-		return a.data('index') - b.data('index');
-	};
+  // Sort contained sets by index for convenience later on.
+  var comparator = function(a,b) {
+    return a.data('index') - b.data('index');
+  };
 
-	this.containedSets = this.containedSets.sort(comparator);
+  this.containedSets = this.containedSets.sort(comparator);
 };
 
 /**
@@ -49,7 +49,7 @@ function Region(venn, containedSets) {
  * meaningful to the user.
  */
 Region.prototype.getHashKey = function() {
-	return Region.getHashKey(this.containedSets);
+  return Region.getHashKey(this.containedSets);
 };
 
 /**
@@ -81,14 +81,14 @@ Region.prototype.getId = function() {
  * Returns true if this region is active.
  */
 Region.prototype.isActive = function() {
-	return this.active;
+  return this.active;
 };
 
 /** 
  * Toggles whether or not this region is active.
  */
 Region.prototype.toggleActive = function() {
-	this.setActive(! this.isActive());
+  this.setActive(! this.isActive());
 };
 
 /**
@@ -97,7 +97,7 @@ Region.prototype.toggleActive = function() {
  * TODO: need to perform shading if set to true and shading is enabled...
  */
 Region.prototype.setActive = function(val) {
-	this.active = val;
+  this.active = val;
 };
 
 /**
@@ -122,7 +122,7 @@ Region.prototype.unshade = function() {
  * this method, but don't have time right now.
  */
 Region.prototype.shade = function(lines) {
-	this.shadingLines = lines;
+  this.shadingLines = lines;
 };
 
 /**
@@ -130,21 +130,21 @@ Region.prototype.shade = function(lines) {
  * provided ones.
  */
 Region.prototype.union = function(others) {
-	// Make a copy of the sets in this region
-	var regions = this.containedSets.slice();
+  // Make a copy of the sets in this region
+  var regions = this.containedSets.slice();
 
-	for (var i in others) {
-		regions.push(others[i]);
-	}
+  for (var i in others) {
+    regions.push(others[i]);
+  }
 
-	return new Region(this.venn, regions);
+  return new Region(this.venn, regions);
 };
 
 /**
  * Provide a pleasant representation of this region.
  */
 Region.prototype.toString = function() {
-	return this.getId();
+  return this.getId();
 };
 
 /**
@@ -159,13 +159,13 @@ Region.prototype.getRepresentativeCoords = function() {
  * of sets.
  */
 Region.getHashKey = function(sets) {
-	var id = "";
+  var id = "";
 
-	for (var i in sets) {
-		id += sets[i].data('index') + ',';
-	}
+  for (var i in sets) {
+    id += sets[i].data('index') + ',';
+  }
 
-	return id;
+  return id;
 };
 
 /**
@@ -189,49 +189,49 @@ Region.arrayKeyToRegionLabel = function(a, labels) {
  *********************** */
 
 var methods = {
-	init : function(options) {
-		// TODO: If this element doesn't have an element ID, Raphael isn't going to be able
-		// to find it. Fix that.
+  init : function(options) {
+    // TODO: If this element doesn't have an element ID, Raphael isn't going to be able
+    // to find it. Fix that.
 
-		var settings = $.extend({
-			// The number of sets to draw and track.
-			numSets : 4,
+    var settings = $.extend({
+      // The number of sets to draw and track.
+      numSets : 4,
 
-			// Default labels to use for the sets
-			setLabels : ['A', 'B', 'C', 'D'],
+      // Default labels to use for the sets
+      setLabels : ['A', 'B', 'C', 'D'],
 
-			// Label to use for the universe
-			universeLabel : 'U',
+      // Label to use for the universe
+      universeLabel : 'U',
 
-			// Color palette
-			colors : ['#f00', '#0f0', '#00f', '#dd0'],
+      // Color palette
+      colors : ['#f00', '#0f0', '#00f', '#dd0'],
 
-			// Background color for universal set, etc.
-			backgroundColor : '#fff',
+      // Background color for universal set, etc.
+      backgroundColor : '#fff',
 
-			// Border color appearing around the universe
-			borderColor: '#000',
+      // Border color appearing around the universe
+      borderColor: '#000',
 
-			// If this is true, we will render nice little lines under regions that are
-			// enabled.
-			shadeRegions : true,
+      // If this is true, we will render nice little lines under regions that are
+      // enabled.
+      shadeRegions : true,
 
-			// If region shading is enabled, this specifies the number of pixels that
-			// vertically separate the lines in the shading.
-			shadeSpacing : 3,
+      // If region shading is enabled, this specifies the number of pixels that
+      // vertically separate the lines in the shading.
+      shadeSpacing : 3,
 
-			// Color to use for shading (fill for universe, lines for non-universe sets).
-			shadeColor : '#000',
+      // Color to use for shading (fill for universe, lines for non-universe sets).
+      shadeColor : '#000',
 
-			// Opacity to use when the universe is shaded
-			universeShadeOpacity : 0.3,
+      // Opacity to use when the universe is shaded
+      universeShadeOpacity : 0.3,
 
-			// Set of attributes for the ellipses to be drawn
-			ellipseSettings: {
-				'fill'         : '#fff', 
-				'fill-opacity' : 0,
-				'stroke-width' : 2,
-			},
+      // Set of attributes for the ellipses to be drawn
+      ellipseSettings: {
+        'fill'         : '#fff', 
+        'fill-opacity' : 0,
+        'stroke-width' : 2,
+      },
 
       // An set of regions to enable initially
       initRegions : [],
@@ -239,13 +239,13 @@ var methods = {
       // If true, interactive clicking will be disabled.
       disableClicks : false,
 
-			// Default dimensions for the HTML 5 canvas
-			canvasWidth : 'inherit',
-			canvasHeight : 'inherit',
+      // Default dimensions for the HTML 5 canvas
+      canvasWidth : 'inherit',
+      canvasHeight : 'inherit',
 
-			// Event handler that gets called when a region is clicked. Default is noop.
-			regionClicked : $.noop
-		}, options);
+      // Event handler that gets called when a region is clicked. Default is noop.
+      regionClicked : $.noop
+    }, options);
 
     if (settings.canvasWidth == 'inherit') {
         settings.canvasWidth = this.width();
@@ -254,78 +254,78 @@ var methods = {
         settings.canvasHeight = this.height();
     }
 
-		var $this = this;
-		var paper = Raphael($(this)[0], settings.canvasWidth, settings.canvasHeight);
+    var $this = this;
+    var paper = Raphael($(this)[0], settings.canvasWidth, settings.canvasHeight);
 
-		var ellipses;
-		if (settings.numSets == 4) {
-			ellipses = draw4SetVennDiagram(settings, paper, this);
-		}
-		else if (settings.numSets == 3) {
-			ellipses = draw3SetVennDiagram(settings, paper, this);
-		}
-		else {
-			ellipses = draw2SetVennDiagram(settings, paper, this);
-		}
+    var ellipses;
+    if (settings.numSets == 4) {
+      ellipses = draw4SetVennDiagram(settings, paper, this);
+    }
+    else if (settings.numSets == 3) {
+      ellipses = draw3SetVennDiagram(settings, paper, this);
+    }
+    else {
+      ellipses = draw2SetVennDiagram(settings, paper, this);
+    }
 
-		// Create a set out of the generated ralphael objects and do some stuff.
-		var set = paper.set();
-		for (var i in ellipses) {
-			set.push(ellipses[i]);
-		}
+    // Create a set out of the generated ralphael objects and do some stuff.
+    var set = paper.set();
+    for (var i in ellipses) {
+      set.push(ellipses[i]);
+    }
 
-		var box = set.getBBox();
-		var pad = 20;
-		var universe = paper.rect(box.x-pad, box.y-pad, box.width+2*pad, box.height+2*pad)
-			.attr('fill', settings.universeShadeOpacity)
-			.attr('fill-opacity', 0)
-			.attr('stroke-width', 1)
-			.toBack();
-		paper.text(universe.attr('x') + universe.attr('width') - pad/2,
-			universe.attr('y') + universe.attr('height') - 10,
-			settings.universeLabel)
-			.attr('font-size', '10')
-			.attr('font-weight', 'bold')
-			.toBack();
+    var box = set.getBBox();
+    var pad = 20;
+    var universe = paper.rect(box.x-pad, box.y-pad, box.width+2*pad, box.height+2*pad)
+      .attr('fill', settings.universeShadeOpacity)
+      .attr('fill-opacity', 0)
+      .attr('stroke-width', 1)
+      .toBack();
+    paper.text(universe.attr('x') + universe.attr('width') - pad/2,
+      universe.attr('y') + universe.attr('height') - 10,
+      settings.universeLabel)
+      .attr('font-size', '10')
+      .attr('font-weight', 'bold')
+      .toBack();
 
-		// We want Raphael to tell us when this set is clicked. 
-		set.click(function(e) {
-			handleVennClick.apply($this, [e]);
-		});
-		// And also when the universe is clicked.
-		universe.click(function(e) {
-			handleUniverseClick.apply($this);
-		});
+    // We want Raphael to tell us when this set is clicked. 
+    set.click(function(e) {
+      handleVennClick.apply($this, [e]);
+    });
+    // And also when the universe is clicked.
+    universe.click(function(e) {
+      handleUniverseClick.apply($this);
+    });
 
-		this.data('venn',
-		{
-			settings : settings,
-			paper    : paper,
-			set      : set,
-			universe : universe,
-			bbox     : box,
-		});
+    this.data('venn',
+    {
+      settings : settings,
+      paper    : paper,
+      set      : set,
+      universe : universe,
+      bbox     : box,
+    });
 
-		// Copy the elements in the set to an array for use in generateRegions... Raphael sets
-		// don't seem to have a .slice method. :\
-		var allRegions = generateRegions(this, $.makeArray(set));
+    // Copy the elements in the set to an array for use in generateRegions... Raphael sets
+    // don't seem to have a .slice method. :\
+    var allRegions = generateRegions(this, $.makeArray(set));
 
-		// Create some nice meta-data fields for each region keyed by the region ID.
-		var setRegions = {};
-		for (var i in allRegions) {
-			setRegions[allRegions[i].getHashKey()] = allRegions[i];
-		}
+    // Create some nice meta-data fields for each region keyed by the region ID.
+    var setRegions = {};
+    for (var i in allRegions) {
+      setRegions[allRegions[i].getHashKey()] = allRegions[i];
+    }
 
     // TODO: This seems really dumb.
     // Programatically find a point in every region. This is necessary if one wants to
     // programatically activate a region and shading is enabled.
     this.data('venn').regionCoordinates = findRegionCoordinates.call($this);
 
-		// Update regions field for the Venn diagram.
-		this.data('venn').regions = setRegions;
+    // Update regions field for the Venn diagram.
+    this.data('venn').regions = setRegions;
 
-		// Attach event handler for region clicked
-		this.bind('regionClicked.venn', settings.regionClicked);
+    // Attach event handler for region clicked
+    this.bind('regionClicked.venn', settings.regionClicked);
 
     // May need to resize parent...
     if (this.height() < settings.canvasHeight ) {
@@ -337,24 +337,24 @@ var methods = {
       this.venn('activateRegion', settings.initRegions[i]);
     }
 
-		return this;
-	},
+    return this;
+  },
 
-	/**
-	 * Gets an array of regions that are currently active.
-	 */
-	activeRegions : function() {
-		var A = [];
-		var r = this.data('venn').regions;
+  /**
+   * Gets an array of regions that are currently active.
+   */
+  activeRegions : function() {
+    var A = [];
+    var r = this.data('venn').regions;
 
-		for (var i in r) {
-			if (r[i].isActive()) {
-				A.push(r[i]);
-			}
-		}
+    for (var i in r) {
+      if (r[i].isActive()) {
+        A.push(r[i]);
+      }
+    }
 
-		return A;
-	},
+    return A;
+  },
 
   /**
    * Activates a region specified either by an array containing the indexes of
@@ -397,15 +397,15 @@ var methods = {
  * Method dispatcher. Call the appropriate method above.
  */
 $.fn.venn = function(method) {
-	if (methods[method]) {
-		return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
-	}
-	else if ( typeof method == 'object' || ! method ) {
-		return methods.init.apply(this, arguments);
-	}
-	else {
-		$.error('Method ' + method + 'does not exist on jQuery.venn!');
-	}
+  if (methods[method]) {
+    return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+  }
+  else if ( typeof method == 'object' || ! method ) {
+    return methods.init.apply(this, arguments);
+  }
+  else {
+    $.error('Method ' + method + 'does not exist on jQuery.venn!');
+  }
 }
 
 /**
@@ -439,124 +439,124 @@ function findRegionCoordinates() {
  * Function to generate an array of regions available within a set.
  */
 function generateRegions(venn, set) {
-	if (set.length == 0) {
-		return [new Region(venn, [])];
-	}
-	else {
-		var r = generateRegions(venn, set.slice(1));
-		var u = [];
+  if (set.length == 0) {
+    return [new Region(venn, [])];
+  }
+  else {
+    var r = generateRegions(venn, set.slice(1));
+    var u = [];
 
-		for (var i in r) {
-			u.push(r[i]);
-			u.push(r[i].union([ set[0] ]));
-		}
+    for (var i in r) {
+      u.push(r[i]);
+      u.push(r[i].union([ set[0] ]));
+    }
 
-		return u;
-	}
+    return u;
+  }
 }
 
 /**
  * Render a 2-set Venn diagram.
  */
 function draw2SetVennDiagram(settings, paper, canvas) {
-	var r = (0.3 * settings.canvasWidth/2);
-	var xoffset = settings.canvasWidth/2;
-	var yoffset = settings.canvasHeight/2;
+  var r = (0.3 * settings.canvasWidth/2);
+  var xoffset = settings.canvasWidth/2;
+  var yoffset = settings.canvasHeight/2;
 
-	var sets = [
-		paper.ellipse(xoffset-r/2, yoffset, r, r),
-		paper.ellipse(xoffset+r/2, yoffset, r, r),
-	];
+  var sets = [
+    paper.ellipse(xoffset-r/2, yoffset, r, r),
+    paper.ellipse(xoffset+r/2, yoffset, r, r),
+  ];
 
-	for (var i in sets) {
-		var e = sets[i];
+  for (var i in sets) {
+    var e = sets[i];
 
-		e.attr('stroke', settings.colors[i]).data('index', i);
+    e.attr('stroke', settings.colors[i]).data('index', i);
 
-		for (var key in settings.ellipseSettings) {
-			e.attr(key, settings.ellipseSettings[key]);
-		}
+    for (var key in settings.ellipseSettings) {
+      e.attr(key, settings.ellipseSettings[key]);
+    }
 
-		var ux = e.attr('cx'), uy = e.attr('cy'), x, y;
-		if (i == 0) {
-			x = ux - 0.75*r;
-			y = uy;
-		}
-		else {
-			x = ux + 0.75*r;
-			y = uy;
-		}
+    var ux = e.attr('cx'), uy = e.attr('cy'), x, y;
+    if (i == 0) {
+      x = ux - 0.75*r;
+      y = uy;
+    }
+    else {
+      x = ux + 0.75*r;
+      y = uy;
+    }
 
-		var label = paper.text(x, y, settings.setLabels[i])
-			.attr('font-size', '10')
-			.attr('font-weight', 'bold');
-		var box = label.getBBox();
+    var label = paper.text(x, y, settings.setLabels[i])
+      .attr('font-size', '10')
+      .attr('font-weight', 'bold');
+    var box = label.getBBox();
 
-		paper.rect(box.x-4, box.y-2, box.width+8, box.height+4)
-			.attr('fill', settings.backgroundColor)
-			.attr('stroke-width', 0)
-			.toBack();
-	}
+    paper.rect(box.x-4, box.y-2, box.width+8, box.height+4)
+      .attr('fill', settings.backgroundColor)
+      .attr('stroke-width', 0)
+      .toBack();
+  }
 
-	return sets;
+  return sets;
 }
 
 /**
  * Render a 3-set Venn diagram using the provided settings.
  */
 function draw3SetVennDiagram(settings, paper, canvas) {
-	var r = (0.32 * settings.canvasWidth/2);
-	var xoffset = settings.canvasWidth/2;
-	var yoffset = settings.canvasHeight/2+r/3;
+  var r = (0.32 * settings.canvasWidth/2);
+  var xoffset = settings.canvasWidth/2;
+  var yoffset = settings.canvasHeight/2+r/3;
 
   // Going to rotate the whole thing.
   var ellipseSet = paper.set();
 
-	var sets = [
-		paper.ellipse(xoffset-r/2, yoffset-0.75*r, r, r),
-		paper.ellipse(xoffset+r/2, yoffset-0.75*r, r, r),
-		paper.ellipse(xoffset, yoffset, r, r)
-	];
+  var sets = [
+    paper.ellipse(xoffset-r/2, yoffset-0.75*r, r, r),
+    paper.ellipse(xoffset+r/2, yoffset-0.75*r, r, r),
+    paper.ellipse(xoffset, yoffset, r, r)
+  ];
   var labels = [];
 
-	for (var i in sets) {
-		var e = sets[i];
+  for (var i in sets) {
+    var e = sets[i];
         ellipseSet.push(e);
 
-		e.attr('stroke', settings.colors[i]).data('index', i);
+    e.attr('stroke', settings.colors[i]).data('index', i);
 
-		for (var key in settings.ellipseSettings) {
-			e.attr(key, settings.ellipseSettings[key]);
-		}
+    for (var key in settings.ellipseSettings) {
+      e.attr(key, settings.ellipseSettings[key]);
+    }
 
-		var ux = e.attr('cx'), uy = e.attr('cy'), x, y;
-		if (i == 0) {
-			x = ux - r/2;
-			y = uy - r/2;
-		}
-		else if (i == 1) {
-			x = ux + r/2;
-			y = uy - r/2;
-		}
-		else {
-			x = ux;
-			y = uy + 0.75*r;
-		}
+    var ux = e.attr('cx'), uy = e.attr('cy'), x, y;
+    if (i == 0) {
+      x = ux - r/2;
+      y = uy - r/2;
+    }
+    else if (i == 1) {
+      x = ux + r/2;
+      y = uy - r/2;
+    }
+    else {
+      x = ux;
+      y = uy + 0.75*r;
+    }
 
-		var label = paper.text(x, y, settings.setLabels[i])
-			.attr('font-size', '10')
-			.attr('font-weight', 'bold')
+    var label = paper.text(x, y, settings.setLabels[i])
+      .attr('font-size', '10')
+      .attr('font-weight', 'bold')
             .toBack();
-		var box = label.getBBox();
+    var box = label.getBBox();
 
-		var labelBg = paper.rect(box.x-4, box.y-2, box.width+8, box.height+4)
-			.attr('fill', settings.backgroundColor)
-			.attr('stroke-width', 0)
-			.toBack();
+    var labelBg = paper.rect(box.x-4, box.y-2, box.width+8, box.height+4)
+      .attr('fill', settings.backgroundColor)
+      .attr('stroke-width', 0)
+      .toBack();
 
     ellipseSet.push(label).push(labelBg);
     labels.push(paper.set().push(label).push(labelBg));
-	}
+  }
 
     var setBox = ellipseSet.getBBox();
     var cx = setBox.x + setBox.width/2, cy = setBox.y + setBox.height/2;
@@ -566,73 +566,73 @@ function draw3SetVennDiagram(settings, paper, canvas) {
         labels[i].rotate(-90);
     }
 
-	return sets;
+  return sets;
 }
 
 /**
  * Render a 4-set Venn diagram using the provided settings, Raphael paper and canvas.
  */
 function draw4SetVennDiagram(settings, paper, canvas) {
-	// TODO: make this stuff configurable
-	var xr = (0.10 * settings.canvasWidth);
-	var yr = (0.25 * settings.canvasWidth);
+  // TODO: make this stuff configurable
+  var xr = (0.10 * settings.canvasWidth);
+  var yr = (0.25 * settings.canvasWidth);
 
-	var xoffset = 1.60*yr + xr;
-	var yoffset = (settings.canvasHeight / 2)+1.25*xr;
+  var xoffset = 1.60*yr + xr;
+  var yoffset = (settings.canvasHeight / 2)+1.25*xr;
 
-	// Render the sets
-	var sets = [
-		paper.ellipse(xoffset+yr, yoffset, xr, yr)
-			.rotate(-70, xoffset, yoffset+yr),
-		paper.ellipse(xoffset+yr, yoffset, xr, yr)
-			.rotate(-65, xoffset, yoffset+yr)
-			.translate(yr/3,xr/2),
-		paper.ellipse(xoffset-yr, yoffset, xr, yr)
-			.rotate(65, xoffset, yoffset+yr)
-			.translate(-yr/3,xr/2),
-		paper.ellipse(xoffset-yr, yoffset, xr, yr)
-			.rotate(70, xoffset, yoffset+yr),
-	];
+  // Render the sets
+  var sets = [
+    paper.ellipse(xoffset+yr, yoffset, xr, yr)
+      .rotate(-70, xoffset, yoffset+yr),
+    paper.ellipse(xoffset+yr, yoffset, xr, yr)
+      .rotate(-65, xoffset, yoffset+yr)
+      .translate(yr/3,xr/2),
+    paper.ellipse(xoffset-yr, yoffset, xr, yr)
+      .rotate(65, xoffset, yoffset+yr)
+      .translate(-yr/3,xr/2),
+    paper.ellipse(xoffset-yr, yoffset, xr, yr)
+      .rotate(70, xoffset, yoffset+yr),
+  ];
 
-	// Apply settings and create labels
-	for (var i in sets) {
-		var e = sets[i];
+  // Apply settings and create labels
+  for (var i in sets) {
+    var e = sets[i];
 
-		e.attr('stroke', settings.colors[i])
-		 .data('index', i);
-	
-		for (var key in settings.ellipseSettings) {
-			e.attr(key, settings.ellipseSettings[key]);
-		}
+    e.attr('stroke', settings.colors[i])
+     .data('index', i);
+  
+    for (var key in settings.ellipseSettings) {
+      e.attr(key, settings.ellipseSettings[key]);
+    }
 
-		var ux = e.attr('cx');
-		var uy = e.attr('cy') - e.attr('ry') + 20;
-		var x,y;
-		if (i == 0 || i == 3) {
-			x = e.matrix.x(ux,uy), y = e.matrix.y(ux,uy);
-		}
-		else if (i == 2) {
-			x = e.matrix.x(ux,uy) - 30;
-			y = e.matrix.y(ux,uy) - 10;
-		}
-		else if (i == 1) {
-			x = e.matrix.x(ux,uy) + 30;
-			y = e.matrix.y(ux,uy) - 10;
-		}
+    var ux = e.attr('cx');
+    var uy = e.attr('cy') - e.attr('ry') + 20;
+    var x,y;
+    if (i == 0 || i == 3) {
+      x = e.matrix.x(ux,uy), y = e.matrix.y(ux,uy);
+    }
+    else if (i == 2) {
+      x = e.matrix.x(ux,uy) - 30;
+      y = e.matrix.y(ux,uy) - 10;
+    }
+    else if (i == 1) {
+      x = e.matrix.x(ux,uy) + 30;
+      y = e.matrix.y(ux,uy) - 10;
+    }
 
-		var label = paper.text(x, y, settings.setLabels[i])
-			.attr('font-size', '10')
-			.attr('font-weight', 'bold')
+    var label = paper.text(x, y, settings.setLabels[i])
+      .attr('font-size', '10')
+      .attr('font-weight', 'bold')
             .toBack();
-		var box = label.getBBox();
+    var box = label.getBBox();
 
-		paper.rect(box.x-4, box.y-2, box.width+8, box.height+4)
-			.attr('fill', settings.backgroundColor)
-			.attr('stroke-width', 0)
-			.toBack();
-	}
+    paper.rect(box.x-4, box.y-2, box.width+8, box.height+4)
+      .attr('fill', settings.backgroundColor)
+      .attr('stroke-width', 0)
+      .toBack();
+  }
 
-	return sets;
+  return sets;
 }
 
 /**
@@ -640,22 +640,22 @@ function draw4SetVennDiagram(settings, paper, canvas) {
  * complement of all of the sets contained in the Venn diagram).
  */
 function handleUniverseClick() {
-	var data = this.data('venn');
-	var settings = data.settings;
-	var regionId = '';
-	var region = data.regions[regionId];
+  var data = this.data('venn');
+  var settings = data.settings;
+  var regionId = '';
+  var region = data.regions[regionId];
 
   if (settings.disableClicks) return;
 
-	// Update activeness.
-	region.toggleActive();
+  // Update activeness.
+  region.toggleActive();
 
-	// To shade the universe, we'll just set/unset its fill.
-	if (settings.shadeRegions) {
+  // To shade the universe, we'll just set/unset its fill.
+  if (settings.shadeRegions) {
     handleRegionShading(0, 0, [], this);
-	}
+  }
 
-	this.trigger('regionClicked.venn', data.regions[regionId]);
+  this.trigger('regionClicked.venn', data.regions[regionId]);
 }
 
 /**
@@ -667,42 +667,42 @@ function handleUniverseClick() {
 function handleVennClick(e) {
   // Use layerX / layerY if offsetX / offsetY isn't defined.
   // http://www.reloco.com.ar/mozilla/compat.html
-	var x = e.offsetX || e.layerX
+  var x = e.offsetX || e.layerX
     , y = e.offsetY || e.layerY
     ;
 
-	var data = this.data('venn');
-	var set = data.set;
-	var setsInRegion = getEllipses(x, y, set);
-	var regionId = Region.getHashKey(setsInRegion);
+  var data = this.data('venn');
+  var set = data.set;
+  var setsInRegion = getEllipses(x, y, set);
+  var regionId = Region.getHashKey(setsInRegion);
 
   if (data.settings.disableClicks) return;
 
-	// Update the activeness of this region
-	data.regions[regionId].toggleActive();
+  // Update the activeness of this region
+  data.regions[regionId].toggleActive();
 
-	// Shade the region if shading is enabled.
-	if (data.settings.shadeRegions) {
-		handleRegionShading(x, y, setsInRegion, this);
-	}
+  // Shade the region if shading is enabled.
+  if (data.settings.shadeRegions) {
+    handleRegionShading(x, y, setsInRegion, this);
+  }
 
-	// Fire an event.
-	this.trigger('regionClicked.venn', data.regions[regionId]);
+  // Fire an event.
+  this.trigger('regionClicked.venn', data.regions[regionId]);
 }
 
 /**
  * Returns an array of ellipses that are under the provided (x,y) coordinates.
  */
 function getEllipses(x, y, set) {
-	var under = [];
+  var under = [];
 
-	for (var i = 0; i < set.length; i++) {
-		if (isInEllipse(x, y, set[i])) {
-			under.push(set[i]);
-		}
-	}
+  for (var i = 0; i < set.length; i++) {
+    if (isInEllipse(x, y, set[i])) {
+      under.push(set[i]);
+    }
+  }
 
-	return under;
+  return under;
 }
 
 /**
@@ -710,18 +710,18 @@ function getEllipses(x, y, set) {
  * ellipse.
  */
 function getDistanceFromCenter(x, y, ellipse) {
-	// Extract ellipse centers and radii for convenience.
-	var cx = ellipse.attr('cx'), cy = ellipse.attr('cy'),
-	    rx = ellipse.attr('rx'), ry = ellipse.attr('ry');
+  // Extract ellipse centers and radii for convenience.
+  var cx = ellipse.attr('cx'), cy = ellipse.attr('cy'),
+      rx = ellipse.attr('rx'), ry = ellipse.attr('ry');
 
-	// Transform the clicked coordinates onto the transformed grid
-	var tx = ellipse.matrix.invert().x(x,y),
-	    ty = ellipse.matrix.invert().y(x,y);
+  // Transform the clicked coordinates onto the transformed grid
+  var tx = ellipse.matrix.invert().x(x,y),
+      ty = ellipse.matrix.invert().y(x,y);
 
-	// Compute x/y offsets on the transformed grid and compute distance
-	var dx = (tx - cx), dy = (ty - cy);
-	
-	return ((dx*dx)/(rx*rx) + (dy*dy)/(ry*ry));
+  // Compute x/y offsets on the transformed grid and compute distance
+  var dx = (tx - cx), dy = (ty - cy);
+  
+  return ((dx*dx)/(rx*rx) + (dy*dy)/(ry*ry));
 }
 
 /**
@@ -729,21 +729,21 @@ function getDistanceFromCenter(x, y, ellipse) {
  * ellipse, and false otherwise.
  */
 function isInEllipse(x, y, ellipse) {
-	return getDistanceFromCenter(x, y, ellipse) <= 1;
+  return getDistanceFromCenter(x, y, ellipse) <= 1;
 }
 
 /** 
  * Returns true if the provided point lies on the boundary of the provided ellipse.
  */
 function onEllipseBoundary(x, y, ellipse) {
-	var distance = Math.abs(getDistanceFromCenter(x, y, ellipse) - 1);
+  var distance = Math.abs(getDistanceFromCenter(x, y, ellipse) - 1);
 
-	if (distance < Math.abs(getDistanceFromCenter(x-1,y,ellipse) - 1)
-		&& distance < Math.abs(getDistanceFromCenter(x+1,y,ellipse) - 1)) {
-		return true;
-	}
+  if (distance < Math.abs(getDistanceFromCenter(x-1,y,ellipse) - 1)
+    && distance < Math.abs(getDistanceFromCenter(x+1,y,ellipse) - 1)) {
+    return true;
+  }
 
-	return false;
+  return false;
 }
 
 /**
@@ -752,14 +752,14 @@ function onEllipseBoundary(x, y, ellipse) {
  * of any of the provided ellipses, it will return null.
  */
 function onRegionBoundary(x, y, set) {
-	for (var i = 0; i < set.length; i++) {
-		var ellipse = set[i];
-		if (onEllipseBoundary(x, y, ellipse)) {
-			return i;
-		}
-	}
+  for (var i = 0; i < set.length; i++) {
+    var ellipse = set[i];
+    if (onEllipseBoundary(x, y, ellipse)) {
+      return i;
+    }
+  }
 
-	return null;
+  return null;
 }
 
 /**
@@ -767,94 +767,94 @@ function onRegionBoundary(x, y, set) {
  * ellipses.
  */
 function pointIsInSet(x, y, set) {
-	for (var i = 0; i < set.length; i++) {
-		if (getDistanceFromCenter(x, y, set[i]) > 1) {
-			return false;
-		}
-	}
+  for (var i = 0; i < set.length; i++) {
+    if (getDistanceFromCenter(x, y, set[i]) > 1) {
+      return false;
+    }
+  }
 
-	return true;
+  return true;
 }
 
 /**
  * Return true if the provided point is in any of the given sets.
  */
 function pointIsInAnyOf(x, y, set) {
-	for (var i = 0; i < set.length; i++) {
-		if (getDistanceFromCenter(x, y, set[i]) < 1) {
-			return true;
-		}
-	}
+  for (var i = 0; i < set.length; i++) {
+    if (getDistanceFromCenter(x, y, set[i]) < 1) {
+      return true;
+    }
+  }
 
-	return false;
+  return false;
 }
 
 /**
  * Return true if the provided set contains the provided element.
  */
 function setContains(set, element) {
-	for (var i in set) {
-		if (set[i].data('index') == element.data('index')) {
-			return true;
-		}
-	}
+  for (var i in set) {
+    if (set[i].data('index') == element.data('index')) {
+      return true;
+    }
+  }
 
-	return false;
+  return false;
 }
 
 /**
  * Given the universal set and a set, compute the complement of the set.
  */
 function complementOf(universe, set) {
-	var setBar = [];
+  var setBar = [];
 
-	for (var i = 0; i < universe.length; i++) {
-		if (! setContains(set, universe[i])) {
-			setBar.push(universe[i]);
-		}
-	}
+  for (var i = 0; i < universe.length; i++) {
+    if (! setContains(set, universe[i])) {
+      setBar.push(universe[i]);
+    }
+  }
 
-	return setBar;
+  return setBar;
 }
 
 /**
  * Given a set of ellipses that define a region, either add or remove its shading.
  */
 function handleRegionShading(x, y, setsInRegion, elmt) {
-	var regionId = Region.getHashKey(setsInRegion);
-	var data     = elmt.data('venn');
-	var settings = data.settings;
-	var set      = data.set;
-	var box      = data.bbox;
-	var spacing  = settings.shadeSpacing;
-	var paper    = data.paper;
+  var regionId = Region.getHashKey(setsInRegion);
+  var data     = elmt.data('venn');
+  var settings = data.settings;
+  var set      = data.set;
+  var box      = data.bbox;
+  var spacing  = settings.shadeSpacing;
+  var paper    = data.paper;
 
-	// Compute the complement of 'setsInRegion'. We'll need it later on.
-	var setsNotInRegion = complementOf(set, setsInRegion);
+  // Compute the complement of 'setsInRegion'. We'll need it later on.
+  var setsNotInRegion = complementOf(set, setsInRegion);
 
-	// If this region is inactive, unshade it.
-	if ( !data.regions[regionId].isActive()) {
-		data.regions[regionId].unshade();
-	}
+  // If this region is inactive, unshade it.
+  if ( !data.regions[regionId].isActive()) {
+    data.regions[regionId].unshade();
+  }
   else if (setsInRegion.length == 0) {
     data.universe
       .attr('fill', settings.shadeColor)
       .attr('fill-opacity', settings.universeShadeOpacity);
   }
-	else {
-		var linesAdded = [];
+  else {
+    var linesAdded = [];
         var midpoints = [];
-		var inEllipse = true;
-		
-		// This inner loop is done twice: once to draw lines upwards from where the user
-		// clicked, and one to draw lines downwards.
-		var spacings = [-spacing, spacing];
-		for (var si in spacings) {
-			var spacing = spacings[si];
-			var startX = x, endX = x, startY = y;
-			if (si > 0) {
-				startY += spacing;
-			}
+    var inEllipse = true;
+    
+    // This inner loop is done twice: once to draw lines upwards from where the user
+    // clicked, and one to draw lines downwards.
+    var spacings = [-spacing, spacing];
+    for (var si in spacings) {
+      var spacing = spacings[si];
+      var startX = x, endX = x, startY = y;
+      if (si > 0) {
+        startY += spacing;
+      }
 
       // If we already added lines, starting at the midpoint prevents problems
       // in some cases.
@@ -863,65 +863,65 @@ function handleRegionShading(x, y, setsInRegion, elmt) {
           endX = midpoints[0];
       }
 
-			main : while(true) {
-				// Find the appropriate starting point for this line
-				while (onRegionBoundary(startX-1, startY, setsInRegion) == null
-					&& !pointIsInAnyOf(startX-1, startY, setsNotInRegion)) {
-					startX--;
-					// Sanity check: make sure we're not leaving the area.
-					if ((startX + 10) < box.x) {
-						break main;
-					}
-				}
+      main : while(true) {
+        // Find the appropriate starting point for this line
+        while (onRegionBoundary(startX-1, startY, setsInRegion) == null
+          && !pointIsInAnyOf(startX-1, startY, setsNotInRegion)) {
+          startX--;
+          // Sanity check: make sure we're not leaving the area.
+          if ((startX + 10) < box.x) {
+            break main;
+          }
+        }
 
-				// Find the appropriate ending point for this line
-				while (onRegionBoundary(endX+1, startY, setsInRegion) == null
-					&& !pointIsInAnyOf(endX+1, startY, setsNotInRegion)) {
-					endX++;
-					if ((endX-10) > (box.x + box.width)) {
-						break main;
-					}
-				}
+        // Find the appropriate ending point for this line
+        while (onRegionBoundary(endX+1, startY, setsInRegion) == null
+          && !pointIsInAnyOf(endX+1, startY, setsNotInRegion)) {
+          endX++;
+          if ((endX-10) > (box.x + box.width)) {
+            break main;
+          }
+        }
 
-				// If our coordinates have left the region that was clicked on, we should stop
-				// drawing lines.
-				if (   !pointIsInSet(startX, startY, setsInRegion) 
-					|| !pointIsInSet(endX, startY, setsInRegion)
-					|| pointIsInAnyOf(startX, startY, setsNotInRegion)
-					|| pointIsInAnyOf(endX, startY, setsNotInRegion)) {
-					break main;
-				}
+        // If our coordinates have left the region that was clicked on, we should stop
+        // drawing lines.
+        if (   !pointIsInSet(startX, startY, setsInRegion) 
+          || !pointIsInSet(endX, startY, setsInRegion)
+          || pointIsInAnyOf(startX, startY, setsNotInRegion)
+          || pointIsInAnyOf(endX, startY, setsNotInRegion)) {
+          break main;
+        }
 
-				linesAdded.push(
-					paper.path(Raphael.fullfill("M{startx},{starty}L{endx},{endy}",
-						// Since we're drawing horizontal lines, startY and endY will be the same.
-						{startx : startX, starty : startY, endx : endX, endy : startY}))
-					.toBack()
-				);
+        linesAdded.push(
+          paper.path(Raphael.fullfill("M{startx},{starty}L{endx},{endy}",
+            // Since we're drawing horizontal lines, startY and endY will be the same.
+            {startx : startX, starty : startY, endx : endX, endy : startY}))
+          .toBack()
+        );
 
-				// Move our y position. Update x position to the center of the previous line drawn.
-				startX = Math.floor((endX + startX) / 2)
+        // Move our y position. Update x position to the center of the previous line drawn.
+        startX = Math.floor((endX + startX) / 2)
 
         midpoints.push(startX);
-				endX = startX;
-				startY += spacing;
-			}
-		}
+        endX = startX;
+        startY += spacing;
+      }
+    }
 
-		data.regions[regionId].shade(linesAdded);
-	}
+    data.regions[regionId].shade(linesAdded);
+  }
 };
 
 /**
  * Remove the shading from a provided region.
  */
 function unshadeRegion(regionId, elmt) {
-	var data = elmt.data('venn');
-	var activeRegions = data.regions;
+  var data = elmt.data('venn');
+  var activeRegions = data.regions;
 
-	for (var i in activeRegions[regionId].shadingLines) {
-		activeRegions[regionId].shadingLines[i].remove();
-	}
+  for (var i in activeRegions[regionId].shadingLines) {
+    activeRegions[regionId].shadingLines[i].remove();
+  }
 }
 
 })( jQuery );
