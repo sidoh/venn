@@ -21,4 +21,4 @@ others.
 
 Demo
 ----
-A demo is available at <http://christophermullins.net/page/projects>
+A demo is available at <http://christophermullins.net/page/jquery-venn>
