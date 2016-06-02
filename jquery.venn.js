@@ -667,8 +667,8 @@ function handleUniverseClick() {
 function handleVennClick(e) {
   // Use layerX / layerY if offsetX / offsetY isn't defined.
   // http://www.reloco.com.ar/mozilla/compat.html
-  var x = e.offsetX || e.layerX
-    , y = e.offsetY || e.layerY
+  var x = e.hasOwnProperty('offsetX') ? e.offsetX : e.layerX
+    , y = e.hasOwnProperty('offsetY') ? e.offsetY : e.layerY
     ;
 
   var data = this.data('venn');
