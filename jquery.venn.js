@@ -109,7 +109,7 @@ Region.prototype.unshade = function() {
   }
   else {
     if (typeof this.shadingLines != 'undefined' && this.shadingLines != null) {
-      for (var i in this.shadingLines) {
+      for (var i=0; i<this.shadingLines.length; i++) {
         this.shadingLines[i].remove();
       }
     }
@@ -133,7 +133,7 @@ Region.prototype.union = function(others) {
   // Make a copy of the sets in this region
   var regions = this.containedSets.slice();
 
-  for (var i in others) {
+  for (var i=0; i<others.length; i++) {
     regions.push(others[i]);
   }
 
@@ -161,7 +161,7 @@ Region.prototype.getRepresentativeCoords = function() {
 Region.getHashKey = function(sets) {
   var id = "";
 
-  for (var i in sets) {
+  for (var i=0; i<sets.length; i++) {
     id += sets[i].data('index') + ',';
   }
 
@@ -270,7 +270,7 @@ var methods = {
 
     // Create a set out of the generated ralphael objects and do some stuff.
     var set = paper.set();
-    for (var i in ellipses) {
+    for (var i=0; i<ellipses.length; i++) {
       set.push(ellipses[i]);
     }
 
@@ -312,7 +312,7 @@ var methods = {
 
     // Create some nice meta-data fields for each region keyed by the region ID.
     var setRegions = {};
-    for (var i in allRegions) {
+    for (var i=0; i<allRegions.length; i++) {
       setRegions[allRegions[i].getHashKey()] = allRegions[i];
     }
 
@@ -333,7 +333,7 @@ var methods = {
     }
 
     // Enable any regions the user may have requested
-    for (i in settings.initRegions) {
+    for (var i=0; i<settings.initRegions.length; i++) {
       this.venn('activateRegion', settings.initRegions[i]);
     }
 
@@ -347,7 +347,7 @@ var methods = {
     var A = [];
     var r = this.data('venn').regions;
 
-    for (var i in r) {
+    for (var i=0; i < r.length; i++) {
       if (r[i].isActive()) {
         A.push(r[i]);
       }
@@ -373,7 +373,7 @@ var methods = {
 
     // Seems a little silly to do a linear search for this purpose, but it'll
     // probably never make any sort of measurable difference
-    for (var i in regions) {
+    for (var i=0; i<regions.length; i++) {
       // Only bother to do all of the activation stuff if it isn't already
       // active.
       if (regionId == regions[i].getId() && !regions[i].isActive()) {
@@ -446,7 +446,7 @@ function generateRegions(venn, set) {
     var r = generateRegions(venn, set.slice(1));
     var u = [];
 
-    for (var i in r) {
+    for (var i=0; i<r.length; i++) {
       u.push(r[i]);
       u.push(r[i].union([ set[0] ]));
     }
@@ -468,12 +468,12 @@ function draw2SetVennDiagram(settings, paper, canvas) {
     paper.ellipse(xoffset+r/2, yoffset, r, r),
   ];
 
-  for (var i in sets) {
+  for (var i=0; i<sets.length; i++) {
     var e = sets[i];
 
     e.attr('stroke', settings.colors[i]).data('index', i);
 
-    for (var key in settings.ellipseSettings) {
+    for (var key=0; key<settings.ellipseSettings.length; key++) {
       e.attr(key, settings.ellipseSettings[key]);
     }
 
@@ -519,7 +519,7 @@ function draw3SetVennDiagram(settings, paper, canvas) {
   ];
   var labels = [];
 
-  for (var i in sets) {
+  for (var i=0; i<sets.length; i++) {
     var e = sets[i];
         ellipseSet.push(e);
 
@@ -562,7 +562,7 @@ function draw3SetVennDiagram(settings, paper, canvas) {
     var cx = setBox.x + setBox.width/2, cy = setBox.y + setBox.height/2;
     ellipseSet.rotate(90, cx, cy);
 
-    for (var i in labels) {
+    for (var i=0; i<labels.length; i++) {
         labels[i].rotate(-90);
     }
 
@@ -595,13 +595,13 @@ function draw4SetVennDiagram(settings, paper, canvas) {
   ];
 
   // Apply settings and create labels
-  for (var i in sets) {
+  for (var i=0; i<sets.length; i++) {
     var e = sets[i];
 
     e.attr('stroke', settings.colors[i])
      .data('index', i);
   
-    for (var key in settings.ellipseSettings) {
+    for (var key=0; key<settings.ellipseSettings; key++) {
       e.attr(key, settings.ellipseSettings[key]);
     }
 
@@ -667,8 +667,8 @@ function handleUniverseClick() {
 function handleVennClick(e) {
   // Use layerX / layerY if offsetX / offsetY isn't defined.
   // http://www.reloco.com.ar/mozilla/compat.html
-  var x = e.hasOwnProperty('offsetX') ? e.offsetX : e.layerX
-    , y = e.hasOwnProperty('offsetY') ? e.offsetY : e.layerY
+  var x = e.offsetX ? e.offsetX : e.layerX
+    , y = e.offsetY ? e.offsetY : e.layerY
     ;
 
   var data = this.data('venn');
@@ -793,7 +793,7 @@ function pointIsInAnyOf(x, y, set) {
  * Return true if the provided set contains the provided element.
  */
 function setContains(set, element) {
-  for (var i in set) {
+  for (var i=0; i<set.length; i++) {
     if (set[i].data('index') == element.data('index')) {
       return true;
     }
@@ -849,7 +849,7 @@ function handleRegionShading(x, y, setsInRegion, elmt) {
     // This inner loop is done twice: once to draw lines upwards from where the user
     // clicked, and one to draw lines downwards.
     var spacings = [-spacing, spacing];
-    for (var si in spacings) {
+    for (var si=0; si<spacings.length; si++) {
       var spacing = spacings[si];
       var startX = x, endX = x, startY = y;
       if (si > 0) {
@@ -919,7 +919,7 @@ function unshadeRegion(regionId, elmt) {
   var data = elmt.data('venn');
   var activeRegions = data.regions;
 
-  for (var i in activeRegions[regionId].shadingLines) {
+  for (var i=0; i<activeRegions[regionId].shadingLines.length; i++) {
     activeRegions[regionId].shadingLines[i].remove();
   }
 }
